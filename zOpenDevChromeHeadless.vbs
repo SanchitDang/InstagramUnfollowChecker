@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "zDevChromeHeadless.bat",0,True

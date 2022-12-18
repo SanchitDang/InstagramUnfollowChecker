@@ -1,0 +1,34 @@
+1.
+Open cmd
+
+2.
+cd and past chrome directory
+
+3.
+chrome.exe --remote-debugging-port=9222 --user-data-dir="here add path where to store session data"
+
+4.
+kill all session task:-
+taskkill /F /IM chromedriver.exe /T
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+for example
+cd C:\Program Files\Google\Chrome\Application
+chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\Users\sanch\Documents\Projects\Python Projects\Following Check\Session Data"
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Python code for run_on_exixting_browser:-
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+opt = Options()
+opt.add_experimental_option("debuggerAddress", "localhost:9222")
+
+driver = webdriver.Chrome(executable_path='chromedriver.exe', options=opt)
+
+driver.get("http://instagram.com/_theitech_")
+
+-------------------------------------------------------------------------------------------------------------------------------------------
