@@ -5,17 +5,6 @@ import threading
 # Functions
 def make_follow_following_data():
 
-    """
-    t1 = threading.Thread(target=InstaDataSyncer.get_acc_you_follow)
-    t2 = threading.Thread(target=InstaDataSyncer.get_acc_following_you)
-
-    t1.start()
-    t2.start()
-
-    t1.join()
-    t2.join()"""
-
-
     InstaDataSyncer.get_acc_you_follow()
     InstaDataSyncer.get_acc_following_you()
 

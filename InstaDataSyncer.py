@@ -1,106 +1,213 @@
-import requests
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+import time
 
+# Array to store collected texts
+all_texts = []
+all_texts2 = []
 
-# Functions
-def get_acc_you_follow():
+# Find the target div element
+target_div_selector = "div.xyi19xy.x1ccrb07.xtf3nb5.x1pc53ja.x1lliihq.x1iyjqo2.xs83m0k.xz65tgg.x1rife3k.x1n2onr6"
+acc_you_follow = open(r'Synced Data/acc_you_follow.txt', 'w')
+acc_following_you = open(r'Synced Data/acc_following_you.txt', 'w')
+
+def scroll_div_and_collect(num):
+    global all_texts
+
     options = webdriver.ChromeOptions()
     options.add_experimental_option("debuggerAddress", "localhost:9222")
 
     driver = webdriver.Chrome(
-        executable_path=r'DevChrome Data\chromedriver.exe',
+        options=options)
+    
+    # Find the target div element
+    target_div = driver.find_element(By.CSS_SELECTOR, target_div_selector)
+
+    # Select all span elements with the specified class inside the target div
+    spans = target_div.find_elements(By.CSS_SELECTOR, "span._ap3a._aaco._aacw._aacx._aad7._aade")
+
+    # Collect text from each span and add it to the array if not already present
+    for span in spans:
+        text_content = span.text.strip()
+        if text_content and text_content not in all_texts:
+            all_texts.append(text_content)
+            acc_you_follow.write(text_content + '\n')
+            if len(all_texts) >= num:
+                print("Reached", num, "users. Stopping collection:", all_texts)
+                return  # Exit the function if 10 unique texts are collected
+
+    # Check if the length of collected texts is 10
+    if len(all_texts) >= num:
+        print("Reached", num, "users. Stopping collection:", all_texts)
+        return  # Exit the function if 10 unique texts are collected
+
+    # Scroll the div by its height
+    driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", target_div)
+
+    # Wait for new content to load
+    time.sleep(1)  # Adjust timeout as needed
+
+    # Check if more content can be loaded in the div and continue scrolling
+    if target_div.get_attribute('scrollHeight') > target_div.get_attribute('scrollTop'):
+        scroll_div_and_collect(num)
+    else:
+        # Scrolling is complete; log all collected texts
+        print("Scrolling complete. All texts collected:", all_texts)
+
+def scroll_div_and_collect2(num):
+
+    global all_texts2
+    print("scroll_div_and_collect2: ", len(all_texts2))
+
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option("debuggerAddress", "localhost:9222")
+
+    driver = webdriver.Chrome(
+        options=options)
+    
+    # Find the target div element
+    target_div = driver.find_element(By.CSS_SELECTOR, target_div_selector)
+
+    # Select all span elements with the specified class inside the target div
+    spans = target_div.find_elements(By.CSS_SELECTOR, "span._ap3a._aaco._aacw._aacx._aad7._aade")
+
+    # Collect text from each span and add it to the array if not already present
+    for span in spans:
+        text_content = span.text.strip()
+        if text_content and text_content not in all_texts2:
+            all_texts2.append(text_content)
+            acc_you_follow.write(text_content + '\n')
+            # Check if the length of collected texts is 10
+            if len(all_texts2) >= num:
+                print("Reached", num, "users. Stopping collection:", all_texts)
+                return  # Exit the function if 10 unique texts are collected
+
+    # Check if the length of collected texts is 10
+    if len(all_texts2) >= num:
+        print("Reached", num, "users. Stopping collection:", all_texts)
+        return  # Exit the function if 10 unique texts are collected
+
+    # Scroll the div by its height
+    driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", target_div)
+
+    # Wait for new content to load
+    time.sleep(1)  # Adjust timeout as needed
+
+    scroll_div_and_collect2(num)
+    # Check if more content can be loaded in the div and continue scrolling
+    # if target_div.get_attribute('scrollHeight') > target_div.get_attribute('scrollTop'):
+    #     scroll_div_and_collect2(num)
+    # else:
+    #     # Scrolling is complete; log all collected texts
+    #     print("Scrolling complete. All texts collected:", all_texts2)
+
+# Functions
+def get_acc_you_follow():
+    pass
+
+def get_acc_you_follow2():
+
+    following_count=0
+
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option("debuggerAddress", "localhost:9222")
+
+    driver = webdriver.Chrome(
         options=options)
 
-    acc_you_follow = 'https://www.instagram.com/accounts/access_tool/accounts_you_follow'
+    acc_you_follow = 'https://www.instagram.com/sannnchit_/'
     driver.get(acc_you_follow)
 
-    acc_you_follow = open(r'Synced Data/acc_you_follow.txt', 'w')
+    # acc_you_follow = open(r'Synced Data/acc_you_follow.txt', 'w')
+    time.sleep(2)
 
-    # Clicking button loop
-    while True:
-        try:
-            WebDriverWait(driver, 15).until(
-                EC.element_to_be_clickable((By.XPATH, "//button[@class='sqdOP  L3NKy   y3zKF     ']"))).click()
-        except:
-            break
+    ### GETTING FOLLOWING COUNT
+    try:
+        # Wait for the span element to be present and select all elements with the given class
+        spans = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "span.html-span.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1hl2dhg.x16tdsg8.x1vvkbs"))
+        )
 
-    # Getting name loop
-    xpath = "//div[@class='-utLf']"
-    idx = 1  # here first class's index is 1 not 0, cuz its positioning not index
-    while True:
-        try:
-            xpath_new = xpath + "[" + str(idx) + "]"
-            user_id = driver.find_element_by_xpath(xpath_new).get_attribute('innerHTML')
-            idx += 1
-            acc_you_follow.write(user_id + '\n')
+        # Get the text of the first span and convert it to a number
+        if spans:
+            following_text = spans[2].text.strip().replace(",", "")
+            follwoing = int(following_text)
 
-            """
-            # Get Profile Pic
-            try:
-                # Class if u not following
-                user_id_url = 'https://www.instagram.com/' + user_id
-                driver.execute_script('window.open(' + user_id_url + ',"_blank");')
-                src = driver.find_element_by_xpath('//*[@class="be6sR"]').get_attribute("src")
-                response = requests.get(src)
-                file = open('Profile Data/' + user_id + '.png', "wb")
-                file.write(response.content)
-                file.close()
-                driver.execute_script('''window.close();''')
+            # Print the result
+            print("The following count is:", follwoing)
+            following_count = follwoing
+        else:
+            print("No span elements with the specified class were found.")        
+    except Exception as e:
+        print("An error occurred:", e)
+    time.sleep(2)
 
-            except:
-                # Class if u following
-                user_id_url = 'https://www.instagram.com/' + user_id
-                driver.execute_script('window.open(' + user_id_url + ',"_blank");')
-                src = driver.find_element_by_xpath('//*[@class="_6q-tv"]').get_attribute("src")
-                response = requests.get(src)
-                file = open('Profile Data/' + user_id + '.png', "wb")
-                file.write(response.content)
-                file.close()
-                driver.execute_script('''window.close();''')
-                """
+    ### CLICKING ON FOLLOWING
+    try:
+        # Wait for the <a> element with the specified href attribute to be present and clickable
+        target_link = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/sannnchit_/following/"]'))
+        )
+        # Click the <a> element
+        target_link.click()
+    except Exception as e:
+        print("An error occurred:", e)
+    time.sleep(2)
 
-        except:
-            break
-
-    acc_you_follow.close()
+    scroll_div_and_collect(following_count)    
 
 
 def get_acc_following_you():
     options = webdriver.ChromeOptions()
     options.add_experimental_option("debuggerAddress", "localhost:9222")
 
+    following_count2=0
+
     driver = webdriver.Chrome(
-        executable_path=r'DevChrome Data\chromedriver.exe',
+        
         options=options)
 
-    acc_following_you = 'https://www.instagram.com/accounts/access_tool/accounts_following_you'
+    acc_following_you = 'https://www.instagram.com/sannnchit_/'
     driver.get(acc_following_you)
 
-    acc_following_you = open(r'Synced Data/acc_following_you.txt', 'w')
+    # acc_following_you = open(r'Synced Data/acc_following_you.txt', 'w')
+    time.sleep(2)
 
-    while True:
-        try:
-            WebDriverWait(driver, 15).until(
-                EC.element_to_be_clickable((By.XPATH, "//button[@class='sqdOP  L3NKy   y3zKF     ']"))).click()
-        except:
-            break
+    ### GETTING FOLLOWING COUNT
+    try:
+        # Wait for the span element to be present and select all elements with the given class
+        spans = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "span.html-span.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1hl2dhg.x16tdsg8.x1vvkbs"))
+        )
 
-    xpath = "//div[@class='-utLf']"
-    idx = 1  # here first class's index is 1 not 0, cuz its positioning not index
-    while True:
-        try:
+        # Get the text of the first span and convert it to a number
+        if spans:
+            first_span_text = spans[1].text.strip().replace(",", "")
+            first_span_number = int(first_span_text)
 
-            xpath_new = xpath + "[" + str(idx) + "]"
-            user_id = driver.find_element_by_xpath(xpath_new).get_attribute('innerHTML')
-            idx += 1
-            acc_following_you.write(user_id + '\n')
+            # Print the result
+            print("The first span's text as a number:", first_span_number)
+            following_count2 = first_span_number
+        else:
+            print("No span elements with the specified class were found.")        
+    except Exception as e:
+        print("An error occurred:", e)
+    time.sleep(2)
 
-        except:
-            break
+    ### CLICKING ON FOLLOWING
+    try:
+        # Wait for the <a> element with the specified href attribute to be present and clickable
+        target_link = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[@href="/sannnchit_/followers/"]'))
+        )
+        # Click the <a> element
+        target_link.click()
+    except Exception as e:
+        print("An error occurred:", e)
+    time.sleep(2)
 
-    acc_following_you.close()
+    scroll_div_and_collect2(following_count2)  

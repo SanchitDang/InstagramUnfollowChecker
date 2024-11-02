@@ -9,7 +9,9 @@ def unfollow_asses():
     options.add_experimental_option("debuggerAddress", "localhost:9222")
 
     # specify the path to chromedriver.exe (download and save on your computer)
-    driver = webdriver.Chrome(executable_path='DevChrome Data/chromedriver.exe', options=options)
+    driver = webdriver.Chrome(
+        # executable_path='DevChrome Data/chromedriver.exe',
+          options=options)
 
     # Unfollow multiple
     with open(r'Synced Data\not_following_back.txt', 'r') as assholes:

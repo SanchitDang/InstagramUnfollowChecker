@@ -11,7 +11,7 @@ def get_image():
     options.add_experimental_option("debuggerAddress", "localhost:9222")
 
     driver = webdriver.Chrome(
-        executable_path=r'DevChrome Data\chromedriver.exe',
+        # executable_path=r'DevChrome Data\chromedriver.exe',
         options=options)
 
     f5 = open(r'Synced Data/not_following_back.txt', 'r')
@@ -46,7 +46,7 @@ def get_image_without_loop():
     options.add_experimental_option("debuggerAddress", "localhost:9222")
 
     driver = webdriver.Chrome(
-        executable_path=r'DevChrome Data\chromedriver.exe',
+        # executable_path=r'DevChrome Data\chromedriver.exe',
         options=options)
 
     user_id = 'itzzsanchit'
