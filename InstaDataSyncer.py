@@ -4,8 +4,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
+
 # Global configuration
-username="_theitech_"
+username = "_theitech_"
 target_div_selector = "div.xyi19xy.x1ccrb07.xtf3nb5.x1pc53ja.x1lliihq.x1iyjqo2.xs83m0k.xz65tgg.x1rife3k.x1n2onr6"
 span_selector = "span._ap3a._aaco._aacw._aacx._aad7._aade"
 

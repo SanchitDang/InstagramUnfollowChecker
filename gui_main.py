@@ -3,9 +3,8 @@ import threading
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-import HFinder
-import Unfollow_ppl_function
-import get_profile_pic_thumbnail
+import Functions
+
 
 class FirstPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -225,7 +224,7 @@ class SecondPage(tk.Frame):
 
         def sync_data():
             my_progress.start(10)
-            HFinder.make_follow_following_data()
+            Functions.make_follow_following_data()
             # get_profile_pic_thumbnail.get_image()
             my_progress.stop()
 
@@ -236,7 +235,7 @@ class SecondPage(tk.Frame):
 
         def unfollow_ppl():
             my_progress.start(10)
-            Unfollow_ppl_function.unfollow_asses()
+            Functions.unfollow_people()
             my_progress.stop()
 
         def unfollow_button_by_id():
