@@ -8,10 +8,10 @@ def make_follow_following_data():
     InstaDataSyncer.get_acc_you_follow()
     InstaDataSyncer.get_acc_following_you()
 
-    f3 = open(r'Synced Data/acc_following_you.txt', 'r')
-    f4 = open(r'Synced Data/acc_you_follow.txt', 'r')
-    f5 = open(r'Synced Data/not_following_back.txt', 'w')
-    f6 = open(r'Synced Data/you_are_not_following_back.txt', 'w')
+    f3 = open(r'synced_data/acc_following_you.txt', 'r')
+    f4 = open(r'synced_data/acc_you_follow.txt', 'r')
+    f5 = open(r'synced_data/not_following_back.txt', 'w')
+    f6 = open(r'synced_data/you_are_not_following_back.txt', 'w')
 
     followers_list = f3.readlines()
     following_list = f4.readlines()

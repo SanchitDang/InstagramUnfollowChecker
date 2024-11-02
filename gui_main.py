@@ -7,16 +7,12 @@ import HFinder
 import Unfollow_ppl_function
 import get_profile_pic_thumbnail
 
-# JAVASCRIPT document.getElementsByClassName("rhpdm")[0].innerHTML  # To get name, diff for private acc
-# name = driver.find_element_by_xpath('//*[@class="rhpdm"][0]').get_attribute("src")
-
-
 class FirstPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
         # Logo
-        img = Image.open('Resource Data/logo.png')
+        img = Image.open('resource_data/logo.png')
         # img = img.resize((200, 100))
         logo = ImageTk.PhotoImage(img)
         logo_label = tk.Label(self, image=logo)
@@ -84,7 +80,7 @@ class SecondPage(tk.Frame):
         tk.Frame.__init__(self, parent)
 
         # Logo
-        img = Image.open('Resource Data/logo.png')
+        img = Image.open('resource_data/logo.png')
         # img = img.resize((200, 100))
         logo = ImageTk.PhotoImage(img)
         logo_label = tk.Label(self, image=logo)
@@ -143,7 +139,7 @@ class SecondPage(tk.Frame):
             top.title("Unfollowers")
 
             # Logo
-            img = Image.open('Resource Data/logo.png')
+            img = Image.open('resource_data/logo.png')
             # img = img.resize((200, 100))
             logo = ImageTk.PhotoImage(img)
             logo_label = tk.Label(top, image=logo)
@@ -181,7 +177,7 @@ class SecondPage(tk.Frame):
             # Add that New frame To a Window In The Canvas
             my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
 
-            with open(r'Synced Data\not_following_back.txt', 'r') as assholes:
+            with open(r'synced_data\not_following_back.txt', 'r') as assholes:
                 # global inc_in_progress
                 total_user_names = len(assholes.readlines())
                 # inc_in_progress = 100 / total_user_names
@@ -201,7 +197,7 @@ class SecondPage(tk.Frame):
                     # pic = tk.Label(second_frame, text="UserPic", font="Times")
 
                     # Profile Picture
-                    pic = Image.open('Resource Data/demo_profile_pic.png')
+                    pic = Image.open('resource_data/demo_profile_pic.png')
                     # pic = Image.open('Profile Data/'+user_name_without_newline+'.png')
                     pic = pic.resize((50, 50))
                     profilepic = ImageTk.PhotoImage(pic)
@@ -234,7 +230,7 @@ class SecondPage(tk.Frame):
             my_progress.stop()
 
         def see_not_following_back():
-            file = open(r'Synced Data\not_following_back.txt').read()
+            file = open(r'synced_data\not_following_back.txt').read()
             text_box.grid(row=6, columnspan=2)
             text_box.insert(tk.END, file)
 
@@ -271,7 +267,7 @@ class Application(tk.Tk):
         frame = self.frames[page]
         frame.tkraise()
         self.title("Instagram Tool")
-        self.iconbitmap('Resource Data/ico.ico')
+        self.iconbitmap('resource_data/ico.ico')
 
 
 app = Application()

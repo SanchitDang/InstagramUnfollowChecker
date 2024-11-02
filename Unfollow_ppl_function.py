@@ -8,19 +8,16 @@ def unfollow_asses():
     options = webdriver.ChromeOptions()
     options.add_experimental_option("debuggerAddress", "localhost:9222")
 
-    # specify the path to chromedriver.exe (download and save on your computer)
-    driver = webdriver.Chrome(
-        # executable_path='DevChrome Data/chromedriver.exe',
-          options=options)
+    driver = webdriver.Chrome(options=options)
 
     # Unfollow multiple
-    with open(r'Synced Data\not_following_back.txt', 'r') as assholes:
+    with open(r'synced_data\not_following_back.txt', 'r') as not_following_back_data:
         # global inc_in_progress
-        total_user_names = len(assholes.readlines())
+        total_user_names = len(not_following_back_data.readlines())
         # inc_in_progress = 100 / total_user_names
-        assholes.seek(0)
+        not_following_back_data.seek(0)
         for i in range(total_user_names):
-            user_name = assholes.readline()
+            user_name = not_following_back_data.readline()
             user_name_without_newline = user_name[:-1]
             driver.get('https://www.instagram.com/' + user_name_without_newline)
             try:

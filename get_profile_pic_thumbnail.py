@@ -14,7 +14,7 @@ def get_image():
         # executable_path=r'DevChrome Data\chromedriver.exe',
         options=options)
 
-    f5 = open(r'Synced Data/not_following_back.txt', 'r')
+    f5 = open(r'synced_data/not_following_back.txt', 'r')
     not_following_back_list = f5.readlines()
 
     for user in not_following_back_list:
